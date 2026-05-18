@@ -86,7 +86,7 @@ export default function FlightTable({ flights, type }) {
                   color: '#fff',
                   background: getRemarkColor(flight.remark),
                 }}>
-                  {flight.remark || '-'}
+                  {flight.remark || '미정'}
                 </span>
               </td>
             </tr>

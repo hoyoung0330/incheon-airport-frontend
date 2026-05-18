@@ -21,6 +21,7 @@ export function getRemarkColor(remark) {
     '탑승준비': '#13c2c2',
     '착륙': '#1890ff',
     '회항': '#ff4d4f',
+    '미정': '#b0b8c1',
   }
   return colors[remark] || '#8892b0'
 }
