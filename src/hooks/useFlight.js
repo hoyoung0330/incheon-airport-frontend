@@ -87,3 +87,68 @@ export function useDashboard() {
     dataUpdatedAt: arrivals.dataUpdatedAt,
   };
 }
+
+// 통계 페이지용 훅
+export function useStatistics() {
+  const arrivals   = useArrivals('')
+  const departures = useDepartures('')
+
+  const arrivalFlights   = arrivals.data?.data?.flights  || []
+  const departureFlights = departures.data?.data?.flights || []
+
+  // 항공사별 집계
+  const airlineStats = [...arrivalFlights, ...departureFlights]
+    .reduce((acc, f) => {
+      if (!f.airline) return acc
+      if (!acc[f.airline]) acc[f.airline] = { arrival: 0, departure: 0, total: 0 }
+      if (arrivalFlights.includes(f)) acc[f.airline].arrival++
+      else acc[f.airline].departure++
+      acc[f.airline].total++
+      return acc
+    }, {})
+
+  const airlineChartData = Object.entries(airlineStats)
+    .map(([name, v]) => ({ name, ...v }))
+    .sort((a, b) => b.total - a.total)
+    .slice(0, 10)  // 상위 10개
+
+  // 시간대별 집계
+  const hourlyStats = Array.from({ length: 24 }, (_, i) => ({
+    hour: `${String(i).padStart(2, '0')}시`,
+    departure: 0,
+    arrival: 0,
+  }))
+
+  departureFlights.forEach((f) => {
+    if (!f.scheduleDateTime || f.scheduleDateTime.length < 10) return
+    const hour = parseInt(f.scheduleDateTime.substring(8, 10), 10)
+    if (hour >= 0 && hour < 24) hourlyStats[hour].departure++
+  })
+
+  arrivalFlights.forEach((f) => {
+    if (!f.scheduleDateTime || f.scheduleDateTime.length < 10) return
+    const hour = parseInt(f.scheduleDateTime.substring(8, 10), 10)
+    if (hour >= 0 && hour < 24) hourlyStats[hour].arrival++
+  })
+
+  // 공항별 집계 (상위 10개)
+  const airportStats = [...arrivalFlights, ...departureFlights]
+    .reduce((acc, f) => {
+      if (!f.airport) return acc
+      acc[f.airport] = (acc[f.airport] || 0) + 1
+      return acc
+    }, {})
+
+  const airportChartData = Object.entries(airportStats)
+    .map(([name, value]) => ({ name, value }))
+    .sort((a, b) => b.value - a.value)
+    .slice(0, 10)
+
+  return {
+    isLoading: arrivals.isLoading || departures.isLoading,
+    isError:   arrivals.isError   || departures.isError,
+    airlineChartData,
+    hourlyStats,
+    airportChartData,
+  }
+}

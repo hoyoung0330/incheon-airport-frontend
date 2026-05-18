@@ -1,9 +1,10 @@
 import { useLocation } from 'react-router-dom'
 
 const pageTitles = {
-  '/dashboard': '대시보드',
+  '/dashboard':  '대시보드',
   '/departures': '출발편 현황',
-  '/arrivals': '도착편 현황',
+  '/arrivals':   '도착편 현황',
+  '/statistics': '통계 분석',   // ← 추가
 }
 
 export default function Header() {

@@ -4,6 +4,7 @@ import DashboardPage from './pages/Dashboard/DashboardPage'
 import DeparturePage from './pages/Departure/DeparturePage'
 import ArrivalPage from './pages/Arrival/ArrivalPage'
 import LoginPage from './pages/Login/LoginPage'
+import StatisticsPage from './pages/Statistics/StatisticsPage'
 
 function App() {
   return (
@@ -14,6 +15,7 @@ function App() {
         <Route path="dashboard" element={<DashboardPage />} />
         <Route path="departures" element={<DeparturePage />} />
         <Route path="arrivals" element={<ArrivalPage />} />
+        <Route path="statistics"  element={<StatisticsPage />} />
       </Route>
     </Routes>
   )

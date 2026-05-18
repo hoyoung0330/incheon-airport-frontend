@@ -1,9 +1,10 @@
 import { NavLink } from 'react-router-dom'
 
 const menu = [
-  { path: '/dashboard', label: '대시보드', icon: '📊' },
-  { path: '/departures', label: '출발편', icon: '✈️' },
-  { path: '/arrivals', label: '도착편', icon: '🛬' },
+  { path: '/dashboard',  label: '대시보드',  icon: '📊' },
+  { path: '/departures', label: '출발편',    icon: '✈️' },
+  { path: '/arrivals',   label: '도착편',    icon: '🛬' },
+  { path: '/statistics', label: '통계',      icon: '📈' },
 ]
 
 export default function Sidebar() {
